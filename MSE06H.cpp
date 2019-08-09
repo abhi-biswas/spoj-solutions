@@ -2,6 +2,7 @@
 ABHIJEET BISWAS
 CSE (2017-2021)
 MNNIT ALLAHBAD
+VER : AC
 */
 
 #include <bits/stdc++.h>
@@ -36,7 +37,6 @@ void update(int x,int val)
 	for(;x<=m;x+=x&-x)
 		tree[x]+=val;
 }
-
 int query(int x)
 {
 	int sum = 0;
@@ -44,7 +44,6 @@ int query(int x)
 		sum+=tree[x];
 	return sum;
 }
-
 int32_t main() {
 	fastIO
 	#ifndef ONLINE_JUDGE
@@ -64,18 +63,19 @@ int32_t main() {
 		{
 			int a,b;
 			cin>>a>>b;
-			vec[i].pb({a,b});
+			vec.pb({a,b});
 		}
 		sort(vec.begin(),vec.end());
 		int ans = 0;
 		for(int i=0;i<vec.size();i++)
 		{
-			set<int> s;
+			//cout<<vec[i].F<<" "<<vec[i].S<<endl;
+			multiset<int> s;
 			int j;
 			for(j=i;j<vec.size() and vec[i].F==vec[j].F;j++)
 			{
-				ans += query(m-vec[i].S+1+1);
-				s.insert(m-vec[i].S+1);
+				ans += query(m-vec[j].S+1-1);
+				s.insert(m-vec[j].S+1);
 			}
 
 			i=j-1;
