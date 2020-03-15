@@ -6,65 +6,67 @@ ALGORITHM : Z ALGORITHM
 VERDICT : AC
 */
 
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-#define fastIO ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
-#define int long long
 
-void computeZ(string& str,std::vector<int>& z)
+void getZARR(string& str,int * zarr)
 {
-
-	int left = 0, right = 0,k1;
-	z[0] = str.size();
+	zarr[0] = str.size();
+	int l=0,r=0;
 	for(int i=1;i<str.size();i++)
 	{
-		if(i>right)
+		if(i>r)
 		{
-			left = right = i;
-			while(right<str.size() and str[right]==str[right-left])
-				right++;
-			z[i] = right-left;
-			right--;
+			l = r = i;
+			while(r<str.size() and str[r]==str[r-l]) r++;
+			zarr[i] = r-l;
+			r--;
 		}
 		else
 		{
-			int k1 = i + z[i-left] - 1;
-			if(k1<right)
-				z[i] = z[i-left];
+			int k = i - l;
+			if(zarr[k]<r-i+1)
+			{
+				zarr[i] = zarr[k];
+			}
 			else
 			{
-				left = i;
-				while(right<str.size() and str[right]==str[right-left])
-					right++;
-				z[i] = right-left;
-				right--;
+				l = i;
+				while(r<str.size() and str[r]==str[r-l]) r++;
+				zarr[i] = r-l;
+				r--;
 			}
 		}
 	}
-
 }
 
 
-int32_t main() {
-	fastIO
-	int t;
-	cin>>t;
+int main()
+{
+	#ifndef ONLINE_JUDGE
+	freopen("../input.txt","r",stdin);
+	freopen("../output.txt","w",stdout);
+	#endif
+	ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+	int t,q;
+	string str;
+
+	cin >> t;
+
 	while(t--)
 	{
-		string str;
-		cin>>str;
-		std::vector<int> z(str.size()+1,0);
+		cin >> str;
 		reverse(str.begin(),str.end());
-		computeZ(str,z);
-		int q;
-		cin>>q;
+		int * zarr = new int[str.size()];
+		getZARR(str,zarr);
+		cin >> q;
+		int n = str.size();
 		while(q--)
 		{
-			int id;
-			cin>>id;
-			cout<<z[str.size()-id]<<endl;
+			int t;
+			cin >> t;
+			cout << zarr[n-t] << '\n';
 		}
 	}
 
-	return 0;
 }
